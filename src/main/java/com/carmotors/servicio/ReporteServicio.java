@@ -32,6 +32,7 @@ import com.carmotors.modelo.reporte.ProductividadTecnico;
 import com.carmotors.modelo.reporte.RecordatorioMantenimiento;
 import com.carmotors.modelo.reporte.ResumenDescripcion;
 import com.carmotors.modelo.reporte.ResumenTipoServicio;
+import com.carmotors.modelo.TiempoPromedioReparacion;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -185,5 +186,9 @@ public class ReporteServicio {
         return reporteDAO.desempenoProveedores().stream()
                 .sorted(POR_PUNTAJE)
                 .toList();
+    }
+
+    public List<TiempoPromedioReparacion> tiemposPromedioReparacion() throws SQLException {
+        return reporteDAO.tiempoPromedioReparacion();
     }
 }

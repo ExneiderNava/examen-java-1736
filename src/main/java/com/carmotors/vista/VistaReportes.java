@@ -19,6 +19,7 @@
  */
 package com.carmotors.vista;
 
+import com.carmotors.modelo.TiempoPromedioReparacion;
 import com.carmotors.modelo.reporte.AlertaStock;
 import com.carmotors.modelo.reporte.ConsumoRepuesto;
 import com.carmotors.modelo.reporte.DesempenoProveedor;
@@ -34,7 +35,7 @@ import java.util.Map;
 
 // Visto en clase: interfaces e implements -> S07Demo04 Notificable (Sesión 07)
 // Visto en clase: MVC: vista / controlador -> S18Demo01 VistaConsola y UsuarioController (Sesión 18)
-public class ReporteVista implements VistaMenu {
+public class VistaReportes implements VistaMenu {
     // Visto en clase: constantes final / static final -> Ticket (final IVA, Sesión 01) y S12Demo04 ConfiguracionSistema (Sesión 12)
     // Visto en clase: encapsulamiento: private + getters + validación -> S06Demo00Billetera y S06Demo01PerfilUsuario (Sesión 06)
     private static final String SEPARADOR = "==============================================================";
@@ -47,12 +48,13 @@ public class ReporteVista implements VistaMenu {
             "Consumo de repuestos",
             "Alertas de inventario (stock mínimo y caducidad)",
             "Recordatorios de mantenimiento preventivo",
-            "Desempeño de proveedores");
+            "Desempeño de proveedores",
+            "Ver tiempos promedio de reparacion");
 
     private final VistaConsola consola;
 
     // Visto en clase: clases, constructores y this -> S05Demo01Vehiculo (Sesión 05)
-    public ReporteVista(VistaConsola consola) {
+    public VistaReportes(VistaConsola consola) {
         this.consola = consola;
     }
 
@@ -180,6 +182,27 @@ public class ReporteVista implements VistaMenu {
                 .toList(), SIN_DATOS);
     }
 
+    public void verTiemposPromedioReparacion(List<TiempoPromedioReparacion> tiempos) {
+        List<String> lineas = new ArrayList<>();
+        lineas.add("=============================================================");
+        lineas.add("        INFORME DE TIEMPOS PROMEDIO DE REPARACIÓN");
+        lineas.add("=============================================================");
+        lineas.add("");
+        if (tiempos.isEmpty()) {
+            lineas.add(SIN_DATOS);
+        } else {
+            lineas.add("Tipo de Mantenimiento | Tiempo Promedio de Finalización");
+            lineas.add("-------------------------------------------------------------");
+            for (TiempoPromedioReparacion item : tiempos) {
+                lineas.add(Formato.ajustar(item.getTipo().getDescripcion(), 22)
+                        + "| " + formatearDuracion(item.getPromedioMinutos()));
+            }
+        }
+        lineas.add("-------------------------------------------------------------");
+        consola.mostrarLineas(lineas);
+    }
+
+
     // Marco común de todos los reportes: separador, título, cuerpo (o mensaje sin datos), separador.
     private void imprimir(String titulo, List<String> cuerpo, String mensajeSinDatos) {
         List<String> lineas = new ArrayList<>();
@@ -194,4 +217,12 @@ public class ReporteVista implements VistaMenu {
         lineas.add(SEPARADOR);
         consola.mostrarLineas(lineas);
     }
+
+    private String formatearDuracion(long totalMinutos) {
+        long dias = totalMinutos / (24 * 60);
+        long horas = (totalMinutos % (24 * 60)) / 60;
+        long minutos = totalMinutos % 60;
+        return dias + " Días, " + horas + " Horas, " + minutos + " Minutos";
+    }
+
 }

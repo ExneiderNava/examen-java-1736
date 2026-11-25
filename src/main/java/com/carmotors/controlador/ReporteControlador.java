@@ -18,7 +18,7 @@
 package com.carmotors.controlador;
 
 import com.carmotors.servicio.ReporteServicio;
-import com.carmotors.vista.ReporteVista;
+import com.carmotors.vista.VistaReportes;
 import com.carmotors.vista.VistaConsola;
 
 import java.sql.SQLException;
@@ -26,7 +26,7 @@ import java.sql.SQLException;
 // Visto en clase: herencia extends / super(...) -> S07Demo00 Estudiante extends Usuario (Sesión 07)
 // Visto en clase: PATRÓN TEMPLATE METHOD (método final + hooks) -> S14Demo05 ProcesoReporte (Sesión 14)
 // Visto en clase: MVC: vista / controlador -> S18Demo01 VistaConsola y UsuarioController (Sesión 18)
-public class ReporteController extends ControladorBase {
+public class ReporteControlador extends ControladorBase {
     // Visto en clase: constantes final / static final -> Ticket (final IVA, Sesión 01) y S12Demo04 ConfiguracionSistema (Sesión 12)
     // Visto en clase: encapsulamiento: private + getters + validación -> S06Demo00Billetera y S06Demo01PerfilUsuario (Sesión 06)
     private static final int DESCRIPCIONES_TOP = 5;     // top de trabajos más repetidos
@@ -34,12 +34,12 @@ public class ReporteController extends ControladorBase {
     private static final int MESES_PREVENTIVO = 6;      // frecuencia por defecto del preventivo
     private static final int DIAS_RECORDATORIO = 30;    // anticipación por defecto para recordatorios
 
-    private final ReporteVista vista;
+    private final VistaReportes vista;
     private final ReporteServicio servicio;
 
     // Visto en clase: clases, constructores y this -> S05Demo01Vehiculo (Sesión 05)
     /** Recibe su vista (como UsuarioController de S18Demo01) y crea su servicio; se instancia solo cuando el usuario entra al módulo. */
-    public ReporteController(VistaConsola consola, ReporteVista vista) {
+    public ReporteControlador(VistaConsola consola, VistaReportes vista) {
         super(consola, vista);
         this.vista = vista;
         this.servicio = new ReporteServicio();
@@ -52,6 +52,7 @@ public class ReporteController extends ControladorBase {
         registrar("4", () -> alertas());
         registrar("5", () -> recordatorios());
         registrar("6", () -> vista.mostrarDesempeno(servicio.desempenoProveedores()));
+        registrar("7", () -> vista.verTiemposPromedioReparacion(servicio.tiemposPromedioReparacion()));
     }
 
     // Visto en clase: try / catch / throw / throws -> S10Demo03ExcepcionesMain (Sesión 10)

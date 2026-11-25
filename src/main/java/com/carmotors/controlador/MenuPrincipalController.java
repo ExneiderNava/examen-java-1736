@@ -30,7 +30,7 @@ import com.carmotors.vista.InventarioVista;
 import com.carmotors.vista.MenuPrincipal;
 import com.carmotors.vista.OrdenServicioVista;
 import com.carmotors.vista.ProveedorVista;
-import com.carmotors.vista.ReporteVista;
+import com.carmotors.vista.VistaReportes;
 import com.carmotors.vista.VistaConsola;
 
 import java.sql.SQLException;
@@ -59,7 +59,7 @@ public class MenuPrincipalController extends ControladorBase {
         registrar("3", () -> new ClienteController(consola, new ClienteVista(consola)).iniciar());
         registrar("4", () -> new FacturacionController(consola, new FacturacionVista(consola)).iniciar());
         registrar("5", () -> new ProveedorController(consola, new ProveedorVista(consola)).iniciar());
-        registrar("6", () -> new ReporteController(consola, new ReporteVista(consola)).iniciar());
+        registrar("6", () -> new ReporteControlador(consola, new VistaReportes(consola)).iniciar());
     }
 
     /** Comprueba la configuración y la conexión con MySQL; false si no se puede continuar. */
